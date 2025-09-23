@@ -5,6 +5,7 @@ import topLeagueReducer from "@/redux/topLeagueSlice" // import reducer mới
 import topTournamentReducer from "@/redux/tournamentsSlice" // import reducer mới
 import matchesTodayReducer from "@/redux/matchesTodaySlice"
 import playerOfTheWeekReducer from "@/redux/playerOfTheWeekSlice"
+import playersReducer from "@/redux/playersSlice"
 
 export const makeStore = (options = {}) =>
   configureStore({
@@ -14,6 +15,7 @@ export const makeStore = (options = {}) =>
       tournaments: topTournamentReducer,
       matchesToday: matchesTodayReducer,
       playerOfTheWeek: playerOfTheWeekReducer,
+      players: playersReducer,
     },
     preloadedState: options.preloadedState, // quan trọng để preload
   })

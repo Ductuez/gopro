@@ -25,8 +25,6 @@ export default function PlayerOfTheWeek() {
     (state) => state.playerOfTheWeek.data || []
   )
 
-  console.log(playerOfTheWeek, "playerOfTheWeek")
-
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-5 ">
       {/* Title */}

@@ -1,10 +1,10 @@
 // slices/userSlice.js
 import { createSlice } from "@reduxjs/toolkit"
 
-const userSlice = createSlice({
+const leagueSlice = createSlice({
   name: "leagues",
   initialState: { data: null },
   reducers: {},
 })
 
-export default userSlice.reducer
+export default leagueSlice.reducer

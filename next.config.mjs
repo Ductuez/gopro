@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  // images
 
-export default nextConfig;
+  images: {
+    domains: ["cdn.pandascore.co"],
+  },
+}
+
+export default nextConfig

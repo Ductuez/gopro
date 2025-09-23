@@ -41,7 +41,6 @@ export async function GET() {
         )
         if (!gRes.ok) continue
         const game = await gRes.json()
-        console.log(game, "game")
 
         // 3. Gom stats players
         for (const p of game.players || []) {
