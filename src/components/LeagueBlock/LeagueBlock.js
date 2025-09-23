@@ -1,8 +1,6 @@
 import MatchItem from "@/components/MatchItem/MatchItem"
 
 export default function LeagueBlock({ league, matches }) {
-  console.log(matches, "games")
-
   return (
     <div>
       <h3 className="text-sm font-bold text-gray-300 mb-2">{league.name}</h3>

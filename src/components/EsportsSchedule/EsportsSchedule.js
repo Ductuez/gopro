@@ -10,8 +10,6 @@ export default function EsportsSchedule() {
   const [tab, setTab] = useState("all")
   const matchesToday = useSelector((state) => state.matchesToday.data || [])
 
-  console.log(matchesToday, "matchesToday")
-
   // const matches = [
   //   {
   //     league: "LTA",

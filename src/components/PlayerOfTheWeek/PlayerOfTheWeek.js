@@ -1,3 +1,6 @@
+"use client"
+import { useSelector } from "react-redux"
+
 export default function PlayerOfTheWeek() {
   const players = [
     { rank: 2, name: "Oner", team: "T1", score: 9.49, logo: "/teams/t1.png" },
@@ -17,6 +20,12 @@ export default function PlayerOfTheWeek() {
     },
     { rank: 5, name: "Zeka", team: "HLE", score: 8.83, logo: "/teams/hle.png" },
   ]
+
+  const playerOfTheWeek = useSelector(
+    (state) => state.playerOfTheWeek.data || []
+  )
+
+  console.log(playerOfTheWeek, "playerOfTheWeek")
 
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-5 ">

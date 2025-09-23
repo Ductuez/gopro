@@ -31,9 +31,6 @@ export default function Header() {
 
       {/* Actions */}
       <div className="flex items-center space-x-4">
-        <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-4 py-2 rounded">
-          GET DPM APP BETA
-        </button>
         <div className="flex items-center space-x-1 cursor-pointer hover:text-gray-300">
           <span>Account</span>
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

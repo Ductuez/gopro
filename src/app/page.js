@@ -40,14 +40,24 @@ async function getMatchesToday() {
   return res.json()
 }
 
+async function fetchPlayerOfTheWeek() {
+  const res = await fetch("http://localhost:3000/api/players/week", {
+    cache: "no-store",
+  })
+
+  return res.json()
+}
+
 export default async function Page() {
   const dataLeague = await fetchLeague()
   const matchesToday = await getMatchesToday()
+  // const playerOfTheWeek = await fetchPlayerOfTheWeek()
 
   // Khởi tạo store với preloadedState
   const preloadedState = {
     leagues: { data: dataLeague },
     matchesToday: { data: matchesToday },
+    // playerOfTheWeek: { data: playerOfTheWeek },
   }
 
   return (
