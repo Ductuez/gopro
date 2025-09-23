@@ -27,20 +27,35 @@ async function fetchTournaments() {
   return res.json()
 }
 
+async function getMatchesToday() {
+  const today = new Date().toISOString().split("T")[0] // Lấy ngày hiện tại theo định dạng YYYY-MM-DD
+  const endToday = today + "T23:59:59Z" // Kết thúc ngày hôm nay
+  const res = await fetch(
+    `http://localhost:3000/api/matches?begin_at=${today}`,
+    {
+      cache: "no-store",
+    }
+  )
+
+  return res.json()
+}
+
 export default async function Page() {
   const dataLeague = await fetchLeague()
+  const matchesToday = await getMatchesToday()
 
   // Khởi tạo store với preloadedState
   const preloadedState = {
     leagues: { data: dataLeague },
+    matchesToday: { data: matchesToday },
   }
 
   return (
     <ReduxProvider preloadedState={preloadedState}>
       <div className="bg-black flex h-full grow flex-col">
-        <div className="grid grid-cols-1 lg:grid-cols-9 gap-x-24 gap-y-12 w-full max-w-7xl mx-auto px-16 lg:px-0">
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-x-24 gap-y-12 w-full max-w-7xl mx-auto px-16 lg:px-0">
           {/* Left sidebar */}
-          <aside className="lg:col-span-2 hidden lg:flex flex-col gap-20">
+          <aside className="lg:col-span-3 hidden lg:flex flex-col gap-20">
             <TopLeagues />
             <TopSoloQTeams />
             <RosterChanges />

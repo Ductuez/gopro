@@ -1,20 +1,41 @@
-export default function MatchItem({ date, time, team1, team2, score }) {
+import dateJs from "date.js"
+import dayjs from "dayjs"
+
+export default function MatchItem({ begin_at, opponents, games }) {
+  const team1 = opponents?.[0]?.opponent?.acronym || "Team 1"
+  const team2 = opponents?.[1]?.opponent?.acronym || "Team 2"
+  const countWinTeam1 = opponents?.[0]?.result?.score || 0
+  const countWinTeam2 = opponents?.[1]?.result?.score || 0
+
+  function countWins(games, teamId) {
+    return games.filter(
+      (g) => g.status === "finished" && g.winner?.id === teamId
+    ).length
+  }
+
+  const scoreTeam1 = countWins(games, opponents?.[0]?.opponent?.id)
+  const scoreTeam2 = countWins(games, opponents?.[1]?.opponent?.id)
+
   return (
     <li className="flex items-center justify-between bg-gray-800 px-3 py-2 rounded-md">
       {/* Left: time & teams */}
       <div className="flex items-center space-x-3">
-        <div className="text-sm font-semibold text-gray-400">
-          {date} {time}
+        <div className="text-sm font-semibold text-gray-400 w-10">
+          {dayjs(begin_at).format("DD/MM HH:mm")}
         </div>
-        <div>
-          <p className="font-bold">{team1}</p>
-          <p className="text-gray-400">{team2}</p>
+        <div className=" ">
+          <p className="font-bold flex flex-1 w-90 justify-between">
+            <span>{team1}</span> <span>{scoreTeam1}</span>{" "}
+          </p>
+          <p className="text-gray-400 flex flex-1 w-90 justify-between">
+            <span>{team2}</span> <span>{scoreTeam2}</span>
+          </p>
         </div>
       </div>
 
       {/* Right: score + favorite */}
       <div className="flex items-center space-x-3">
-        <span className="font-bold">{score}</span>
+        {/* <span className="font-bold">{score}</span> */}
         <button className="text-gray-400 hover:text-yellow-400">☆</button>
       </div>
     </li>
