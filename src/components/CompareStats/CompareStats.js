@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import PlayerSelect from "@/components/PlayerSelect/PlayerSelect"
 
 function CompareStats() {
-  const players = useSelector((state) => state.players.data)
+  const players = useSelector((state) => state.players.data || [])
 
   return (
     <div className="bg-gray-900 rounded-xl p-4 flex flex-col gap-2 items-center">

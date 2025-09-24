@@ -22,12 +22,28 @@ export async function GET() {
   const { start, end } = getLastWeekRange()
   const token = process.env.PANDASCORE_API_KEY
 
-  // 1. Lấy matches trong tuần
-  const res = await fetch(
-    `https://api.pandascore.co/lol/matches?range[begin_at]=${start},${end}&filter[league_id]=293&page[size]=50`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  )
-  const matches = await res.json()
+  if (!token) {
+    return NextResponse.json(
+      { error: "PANDASCORE_API_KEY is not configured" },
+      { status: 500 }
+    )
+  }
+
+  try {
+    // 1. Lấy matches trong tuần
+    const res = await fetch(
+      `https://api.pandascore.co/lol/matches?range[begin_at]=${start},${end}&filter[league_id]=293&page[size]=50`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: `PandaScore API error: ${res.status} ${res.statusText}` },
+        { status: res.status }
+      )
+    }
+
+    const matches = await res.json()
 
   const playerStats = {}
 
@@ -75,8 +91,15 @@ export async function GET() {
 
   players.sort((a, b) => b.kda - a.kda)
 
-  return NextResponse.json({
-    weekRange: { start, end },
-    top5: players.slice(0, 5),
-  })
+    return NextResponse.json({
+      weekRange: { start, end },
+      top5: players.slice(0, 5),
+    })
+  } catch (error) {
+    console.error("Error fetching player of the week:", error)
+    return NextResponse.json(
+      { error: "Failed to fetch player of the week", details: error.message },
+      { status: 500 }
+    )
+  }
 }

@@ -1,11 +1,15 @@
-// slices/userSlice.js
+// slices/matchesTodaySlice.js
 import { createSlice } from "@reduxjs/toolkit"
 
-const userSlice = createSlice({
+const matchesTodaySlice = createSlice({
   name: "matchesToday",
   initialState: { data: [] },
-  reducers: {},
+  reducers: {
+    setMatchesToday: (state, action) => {
+      state.data = action.payload
+    },
+  },
 })
 
-export const { setUser } = userSlice.actions
-export default userSlice.reducer
+export const { setMatchesToday } = matchesTodaySlice.actions
+export default matchesTodaySlice.reducer

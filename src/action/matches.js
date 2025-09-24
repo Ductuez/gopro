@@ -6,14 +6,25 @@ async function getMatchesToday() {
   const today = getTodayUTC7()
   const endToday = today + "T23:59:59+07:00" // kết thúc ngày hôm nay theo UTC+7
 
-  const res = await fetch(
-    `${instance.defaults.baseURL}/matches?begin_at=${today}&end_at=${endToday}`,
-    {
-      cache: "no-store",
-    }
-  )
+  try {
+    const res = await fetch(
+      `${instance.defaults.baseURL}/matches?begin_at=${today}&end_at=${endToday}`,
+      {
+        cache: "no-store",
+      }
+    )
 
-  return res.json()
+    if (!res.ok) {
+      console.error("Failed to fetch matches:", res.status, res.statusText)
+      return { error: "Failed to fetch matches", data: [] }
+    }
+
+    const result = await res.json()
+    return result
+  } catch (error) {
+    console.error("Error fetching matches:", error)
+    return { error: "Failed to fetch matches", data: [] }
+  }
 }
 
 export { getMatchesToday }
