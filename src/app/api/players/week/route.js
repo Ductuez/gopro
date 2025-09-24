@@ -35,7 +35,7 @@ export async function GET() {
       `https://api.pandascore.co/lol/matches?range[begin_at]=${start},${end}&filter[league_id]=293&page[size]=50`,
       { 
         headers: { Authorization: `Bearer ${token}` },
-        next: { revalidate: 86400 },
+        next: { revalidate: 3600 },
       }
     )
 
@@ -58,7 +58,7 @@ export async function GET() {
           `https://api.pandascore.co/lol/games/${g.id}`,
           { 
             headers: { Authorization: `Bearer ${token}` },
-            next: { revalidate: 3600 }, // 1 hour cache for game details
+            next: { revalidate: 3600 }, // 1 hour cache
           }
         )
         if (!gRes.ok) continue

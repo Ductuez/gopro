@@ -13,7 +13,7 @@ export async function GET(req) {
       headers: {
         Authorization: `Bearer ${TOKEN_PANDASCORE}`,
       },
-      next: { revalidate: 86400 },
+      next: { revalidate: 3600 },
     })
 
     const data = await response.json()

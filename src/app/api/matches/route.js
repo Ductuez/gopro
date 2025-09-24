@@ -23,7 +23,7 @@ export async function GET(req) {
       headers: {
         Authorization: `Bearer ${TOKEN_PANDASCORE}`,
       },
-      next: { revalidate: 86400 },
+      next: { revalidate: 300 }, // fetch data lại sau 5 phút
     })
 
     if (!res.ok) {
