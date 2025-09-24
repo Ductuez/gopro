@@ -11,13 +11,21 @@ export default function EsportsSchedule() {
   const matchesToday = useSelector((state) => state.matchesToday.data || [])
 
   return (
-    <div className="bg-gray-900 text-white rounded-xl p-4 w-[500px]">
+    <div className="text-white rounded-xl p-6 w-full shadow-2xl border bg-black-700 border-white-10" style={{ opacity: 0.8 }}>
       <ScheduleHeader />
       <ScheduleTabs tab={tab} setTab={setTab} />
-      <div className="space-y-6">
-        {Array.isArray(matchesToday) ? matchesToday.map((block, i) => (
-          <LeagueBlock key={i} {...block} />
-        )) : null}
+      <div className="space-y-4">
+        {Array.isArray(matchesToday) && matchesToday.length > 0 ? (
+          matchesToday.map((block, i) => (
+            <LeagueBlock key={i} {...block} />
+          ))
+        ) : (
+          <div className="text-center py-8 text-gray-400">
+            <div className="text-4xl mb-2">📅</div>
+            <div className="text-lg font-medium mb-1">No matches today</div>
+            <div className="text-sm">Check back later for upcoming matches</div>
+          </div>
+        )}
       </div>
     </div>
   )

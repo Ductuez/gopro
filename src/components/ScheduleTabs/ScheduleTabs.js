@@ -1,23 +1,26 @@
 export default function ScheduleTabs({ tab, setTab }) {
   return (
-    <div className="flex mb-4">
+    <div className="flex mb-6 rounded-lg p-1 gap-1 bg-black-700 border border-white-10" style={{ opacity: 0.8 }}>
       <button
         onClick={() => setTab("all")}
-        className={`flex-1 py-2 rounded-l-md ${
-          tab === "all" ? "bg-gray-700 font-bold" : "bg-gray-800 text-gray-400"
+        className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
+          tab === "all" 
+            ? "text-white shadow-sm bg-purple-hover" 
+            : "text-gray-400 hover:text-gray-300"
         }`}
       >
         All
       </button>
       <button
         onClick={() => setTab("favorites")}
-        className={`flex-1 py-2 rounded-r-md ${
+        className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
           tab === "favorites"
-            ? "bg-gray-700 font-bold"
-            : "bg-gray-800 text-gray-400"
+            ? "text-white shadow-sm bg-purple-hover"
+            : "text-gray-400 hover:text-gray-300"
         }`}
       >
-        ★ Favorites
+        <span className="text-yellow-400">★</span>
+        <span>Favorites</span>
       </button>
     </div>
   )
