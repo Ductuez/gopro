@@ -19,9 +19,9 @@ export default async function Page() {
   ])
 
   const preloadedState = {
-    leagues: { data: dataLeague },
-    matchesToday: { data: matchesToday },
-    players: { data: players },
+    leagues: { data: dataLeague?.data || [] },
+    matchesToday: { data: matchesToday?.data || [] },
+    players: { data: players?.data || [] },
   }
 
   return (

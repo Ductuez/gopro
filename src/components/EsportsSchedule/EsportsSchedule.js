@@ -15,9 +15,9 @@ export default function EsportsSchedule() {
       <ScheduleHeader />
       <ScheduleTabs tab={tab} setTab={setTab} />
       <div className="space-y-6">
-        {matchesToday.data.map((block, i) => (
+        {Array.isArray(matchesToday) ? matchesToday.map((block, i) => (
           <LeagueBlock key={i} {...block} />
-        ))}
+        )) : null}
       </div>
     </div>
   )

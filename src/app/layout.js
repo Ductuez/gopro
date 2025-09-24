@@ -1,6 +1,7 @@
 import "./globals.css"
 import Header from "@/components/Header/Header"
 import Footer from "@/components/Footer/Footer"
+import ErrorBoundary from "@/components/ErrorBoundary"
 import { clsx } from "clsx"
 
 const siteName = "DPM Clone"
@@ -44,7 +45,11 @@ export default function RootLayout({ children }) {
     <html lang="vi">
       <body className={clsx("min-h-dvh bg-white antialiased text-gray-900")}>
         <Header siteName={siteName} />
-        <main className="bg-black flex h-full grow flex-col">{children}</main>
+        <main className="bg-black flex h-full grow flex-col">
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
+        </main>
         <Footer />
       </body>
     </html>

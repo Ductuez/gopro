@@ -8,17 +8,41 @@ export async function GET(req) {
   const end = searchParams.get("end_at") // 👈 lấy param end
 
   const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
+  
+  if (!TOKEN_PANDASCORE) {
+    return NextResponse.json(
+      { error: "PANDASCORE_API_KEY is not configured" },
+      { status: 500 }
+    )
+  }
+
   const urlEndpoint = `https://api.pandascore.co/lol/matches?filter[begin_at]=${begin}&sort=begin_at`
 
-  const res = await fetch(urlEndpoint, {
-    headers: {
-      Authorization: `Bearer ${TOKEN_PANDASCORE}`,
-    },
-  })
+  try {
+    const res = await fetch(urlEndpoint, {
+      headers: {
+        Authorization: `Bearer ${TOKEN_PANDASCORE}`,
+      },
+    })
 
-  const matches = await res.json()
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: `PandaScore API error: ${res.status} ${res.statusText}` },
+        { status: res.status }
+      )
+    }
 
-  const grouped = matches.reduce((acc, match) => {
+    const matches = await res.json()
+
+    if (!Array.isArray(matches)) {
+      console.log("PandaScore API response:", matches)
+      return NextResponse.json(
+        { error: "Invalid response format from PandaScore API", data: [] },
+        { status: 500 }
+      )
+    }
+
+    const grouped = matches.reduce((acc, match) => {
     const leagueId = match.league.id
     if (!acc[leagueId]) {
       acc[leagueId] = {
@@ -31,10 +55,17 @@ export async function GET(req) {
     return acc
   }, {})
 
-  // Convert sang array
-  const groupedLeagues = Object.values(grouped)
+    // Convert sang array
+    const groupedLeagues = Object.values(grouped)
 
-  return NextResponse.json({ status: res.status, data: groupedLeagues })
+    return NextResponse.json({ status: res.status, data: groupedLeagues })
+  } catch (error) {
+    console.error("Error fetching matches:", error)
+    return NextResponse.json(
+      { error: "Failed to fetch matches", details: error.message },
+      { status: 500 }
+    )
+  }
 }
 
 // POST request

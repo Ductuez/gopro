@@ -1,11 +1,15 @@
-// slices/userSlice.js
+// slices/playerOfTheWeekSlice.js
 import { createSlice } from "@reduxjs/toolkit"
 
-const userSlice = createSlice({
+const playerOfTheWeekSlice = createSlice({
   name: "playerOfTheWeek",
   initialState: { data: [] },
-  reducers: {},
+  reducers: {
+    setPlayerOfTheWeek: (state, action) => {
+      state.data = action.payload
+    },
+  },
 })
 
-export const { setUser } = userSlice.actions
-export default userSlice.reducer
+export const { setPlayerOfTheWeek } = playerOfTheWeekSlice.actions
+export default playerOfTheWeekSlice.reducer

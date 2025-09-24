@@ -7,7 +7,7 @@ import matchesTodayReducer from "@/redux/matchesTodaySlice"
 import playerOfTheWeekReducer from "@/redux/playerOfTheWeekSlice"
 import playersReducer from "@/redux/playersSlice"
 
-export const makeStore = (options = {}) =>
+export const makeStore = (preloadedState = {}) =>
   configureStore({
     reducer: {
       user: userReducer,
@@ -17,5 +17,5 @@ export const makeStore = (options = {}) =>
       playerOfTheWeek: playerOfTheWeekReducer,
       players: playersReducer,
     },
-    preloadedState: options.preloadedState, // quan trọng để preload
+    preloadedState, // quan trọng để preload
   })

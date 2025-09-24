@@ -1,10 +1,15 @@
-// slices/userSlice.js
+// slices/tournamentsSlice.js
 import { createSlice } from "@reduxjs/toolkit"
 
-const userSlice = createSlice({
+const tournamentsSlice = createSlice({
   name: "tournaments",
-  initialState: { data: null },
-  reducers: {},
+  initialState: { data: [] },
+  reducers: {
+    setTournaments: (state, action) => {
+      state.data = action.payload
+    },
+  },
 })
 
-export default userSlice.reducer
+export const { setTournaments } = tournamentsSlice.actions
+export default tournamentsSlice.reducer
