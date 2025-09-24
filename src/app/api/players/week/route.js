@@ -58,7 +58,7 @@ export async function GET() {
           `https://api.pandascore.co/lol/games/${g.id}`,
           { 
             headers: { Authorization: `Bearer ${token}` },
-            next: { revalidate: 3600 }, // 1 hour cache
+            next: { revalidate: 3600 },
           }
         )
         if (!gRes.ok) continue
