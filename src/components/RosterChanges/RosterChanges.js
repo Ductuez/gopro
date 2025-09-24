@@ -81,7 +81,7 @@ export default function RosterChanges() {
   }
 
   return (
-    <div className="bg-gray-900 text-white rounded-xl p-4 w-full max-w-sm" style={{ opacity: 0.8 }}>
+    <div className="bg-gray-900 text-white rounded-xl p-4 w-full max-w-sm bg-opacity-80">
       <h2 className="text-center text-sm font-bold text-gray-300 mb-4">
         ROSTER CHANGES
       </h2>
@@ -98,19 +98,18 @@ export default function RosterChanges() {
             {day.moves.map((move, i) => (
               <li
                 key={i}
-                className="flex items-center justify-between text-sm font-medium"
+                className="flex gap-2 items-center justify-between text-sm font-medium"
               >
-                {/* JOIN/LEAVE badge */}
                 <span
                   className={`${
                     typeColors[move.type]
-                  } text-white text-xs px-2 py-1 rounded font-bold`}
+                  } text-white d-block text-xs py-1 rounded font-bold  w-80 text-center`}
                 >
                   {move.type}
                 </span>
 
                 {/* Player name */}
-                <span className="flex-1 ml-3">{move.player}</span>
+                <span className="ml-auto ml-3">{move.player}</span>
 
                 {/* Team */}
                 <div className="flex items-center space-x-2">

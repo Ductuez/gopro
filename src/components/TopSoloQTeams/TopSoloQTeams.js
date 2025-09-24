@@ -19,7 +19,7 @@ export default function TopSoloQTeams() {
   }
 
   return (
-    <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-4 w-full max-w-sm" style={{ opacity: 0.8 }}>
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-4 w-full max-w-sm bg-opacity-80">
       <h2 className="text-center text-sm font-bold text-gray-300 mb-4">
         TOP SOLOQ TEAMS
       </h2>

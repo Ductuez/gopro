@@ -11,14 +11,12 @@ export default function EsportsSchedule() {
   const matchesToday = useSelector((state) => state.matchesToday.data || [])
 
   return (
-    <div className="text-white rounded-xl p-6 w-full shadow-2xl border bg-black-700 border-white-10" style={{ opacity: 0.8 }}>
+    <div className="text-white rounded-xl p-6 w-full shadow-2xl border bg-black-700 border-white-10 bg-opacity-80">
       <ScheduleHeader />
       <ScheduleTabs tab={tab} setTab={setTab} />
       <div className="space-y-4">
         {Array.isArray(matchesToday) && matchesToday.length > 0 ? (
-          matchesToday.map((block, i) => (
-            <LeagueBlock key={i} {...block} />
-          ))
+          matchesToday.map((block, i) => <LeagueBlock key={i} {...block} />)
         ) : (
           <div className="text-center py-8 text-gray-400">
             <div className="text-4xl mb-2">📅</div>

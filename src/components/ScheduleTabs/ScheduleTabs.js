@@ -1,11 +1,11 @@
 export default function ScheduleTabs({ tab, setTab }) {
   return (
-    <div className="flex mb-6 rounded-lg p-1 gap-1 bg-black-700 border border-white-10" style={{ opacity: 0.8 }}>
+    <div className="flex mb-6 rounded-lg p-1 gap-1 bg-black-700 border border-white-10 bg-opacity-80">
       <button
         onClick={() => setTab("all")}
         className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-          tab === "all" 
-            ? "text-white shadow-sm bg-purple-hover" 
+          tab === "all"
+            ? "text-white shadow-sm bg-purple-hover"
             : "text-gray-400 hover:text-gray-300"
         }`}
       >

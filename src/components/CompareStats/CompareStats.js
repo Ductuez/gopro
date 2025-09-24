@@ -7,7 +7,7 @@ function CompareStats() {
   const players = useSelector((state) => state.players.data || [])
 
   return (
-    <div className="bg-gray-900 rounded-xl p-4 flex flex-col gap-2 items-center" style={{ opacity: 0.8 }}>
+    <div className="bg-gray-900 bg-opacity-80 rounded-xl p-4 flex flex-col gap-2 items-center">
       <h2 className="flex items-center justify-between text-sm font-bold text-gray-300 mb-2">
         COMPARE STATS <span className="text-gray-400">?</span>
       </h2>

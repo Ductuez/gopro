@@ -26,7 +26,7 @@ export default function PlayerOfTheWeek() {
   )
 
   return (
-    <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-5" style={{ opacity: 0.8 }}>
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-5 bg-opacity-80">
       {/* Title */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xs font-bold text-gray-300">PLAYER OF THE WEEK</h2>
