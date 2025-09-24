@@ -81,7 +81,7 @@ export default function RosterChanges() {
   }
 
   return (
-    <div className="bg-gray-900 text-white rounded-xl p-4 w-80">
+    <div className="bg-gray-900 text-white rounded-xl p-4 w-full max-w-sm" style={{ opacity: 0.8 }}>
       <h2 className="text-center text-sm font-bold text-gray-300 mb-4">
         ROSTER CHANGES
       </h2>

@@ -43,9 +43,11 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi">
-      <body className={clsx("min-h-dvh bg-white antialiased text-gray-900")}>
+      <body className={clsx("min-h-dvh antialiased text-white")} style={{ 
+        background: 'linear-gradient(135deg, #473B7B 0%, #3584A7 50%, #30D2BE 100%)'
+      }}>
         <Header siteName={siteName} />
-        <main className="bg-black flex h-full grow flex-col">
+        <main className="flex h-full grow flex-col">
           <ErrorBoundary>
             {children}
           </ErrorBoundary>
