@@ -3,7 +3,7 @@ import instance from "@/services/axios"
 async function fetchTournaments() {
   try {
     const res = await fetch(`${instance.defaults.baseURL}/tournaments`, {
-      cache: "no-store",
+      next: { revalidate: 86400 },
     })
 
     if (!res.ok) {

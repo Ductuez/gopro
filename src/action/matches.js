@@ -10,7 +10,7 @@ async function getMatchesToday() {
     const res = await fetch(
       `${instance.defaults.baseURL}/matches?begin_at=${today}&end_at=${endToday}`,
       {
-        cache: "no-store",
+        next: { revalidate: 86400 },
       }
     )
 

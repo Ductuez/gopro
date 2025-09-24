@@ -19,6 +19,7 @@ export async function GET() {
       headers: {
         Authorization: `Bearer ${TOKEN_PANDASCORE}`,
       },
+      next: { revalidate: 3600 }, // fetch data lại sau 1 tiếng
     })
 
     if (!res.ok) {
