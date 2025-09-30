@@ -102,8 +102,8 @@ export default function RosterChanges() {
 
   if (loading) {
     return (
-      <div className="bg-gray-900 text-white rounded-xl p-3 w-full max-w-sm bg-opacity-80">
-        <h2 className="text-center text-xs font-bold text-gray-300 mb-3">
+      <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-4 w-full max-w-sm bg-opacity-80">
+        <h2 className="text-center text-sm font-bold text-gray-300 mb-4">
           ROSTER CHANGES
         </h2>
         <div className="text-center py-4">
@@ -115,8 +115,8 @@ export default function RosterChanges() {
   }
 
   return (
-    <div className="bg-gray-900 text-white rounded-xl p-3 w-full max-w-sm bg-opacity-80">
-      <h2 className="text-center text-xs font-bold text-gray-300 mb-3">
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-4 w-full max-w-sm bg-opacity-80">
+      <h2 className="text-center text-sm font-bold text-gray-300 mb-4">
         ROSTER CHANGES
       </h2>
 
@@ -153,7 +153,7 @@ export default function RosterChanges() {
 
                 {/* Team */}
                 <div className="flex items-center space-x-1 ml-auto">
-                  <span className="text-gray-300 font-medium text-xs">{move.team}</span>
+                  <span className="text-white font-bold text-xs">{move.team}</span>
                   <img 
                     src={move.logo} 
                     alt={move.team} 
