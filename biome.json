@@ -19,24 +19,7 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noUnknownAtRules": "off",
-        "useIterableCallbackReturn": "off",
-        "noArrayIndexKey": "off"
-      },
-      "a11y": {
-        "useValidAnchor": "off",
-        "noSvgWithoutTitle": "off",
-        "useButtonType": "off",
-        "noLabelWithoutControl": "off"
-      },
-      "performance": {
-        "noImgElement": "off"
-      },
-      "correctness": {
-        "noUnusedFunctionParameters": "off",
-        "noUnusedVariables": "off",
-        "noUnusedImports": "off",
-        "useExhaustiveDependencies": "off"
+        "noUnknownAtRules": "off"
       }
     },
     "domains": {

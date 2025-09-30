@@ -1,28 +1,28 @@
-import { fetchLeague } from "@/action/leagues";
-import { getMatchesToday } from "@/action/matches";
-import { fetchPlayers } from "@/action/players";
-import ReduxProvider from "@/app/ReduxProvider";
-import CompareStats from "@/components/CompareStats/CompareStats";
-import EsportsSchedule from "@/components/EsportsSchedule/EsportsSchedule";
-import MatchCard from "@/components/MatchCard/MatchCard";
-import PlayerOfTheWeek from "@/components/PlayerOfTheWeek/PlayerOfTheWeek";
-import PredictGames from "@/components/PredictGames/PredictGames";
-import RosterChanges from "@/components/RosterChanges/RosterChanges";
-import TopLeagues from "@/components/TopLeague/TopLeague";
-import TopSoloQTeams from "@/components/TopSoloQTeams/TopSoloQTeams";
+import TopLeagues from "@/components/TopLeague/TopLeague"
+import TopSoloQTeams from "@/components/TopSoloQTeams/TopSoloQTeams"
+import RosterChanges from "@/components/RosterChanges/RosterChanges"
+import EsportsSchedule from "@/components/EsportsSchedule/EsportsSchedule"
+import MatchCard from "@/components/MatchCard/MatchCard"
+import PlayerOfTheWeek from "@/components/PlayerOfTheWeek/PlayerOfTheWeek"
+import PredictGames from "@/components/PredictGames/PredictGames"
+import CompareStats from "@/components/CompareStats/CompareStats"
+import ReduxProvider from "@/app/ReduxProvider"
+import { fetchLeague } from "@/action/leagues"
+import { getMatchesToday } from "@/action/matches"
+import { fetchPlayers } from "@/action/players"
 
 export default async function Page() {
   const [dataLeague, matchesToday, players] = await Promise.all([
     fetchLeague(),
     getMatchesToday(),
     fetchPlayers(),
-  ]);
+  ])
 
   const preloadedState = {
     leagues: { data: dataLeague?.data || [] },
     matchesToday: { data: matchesToday?.data || [] },
     players: { data: players?.data || [] },
-  };
+  }
 
   return (
     <ReduxProvider preloadedState={preloadedState}>
@@ -50,5 +50,5 @@ export default async function Page() {
         </div>
       </div>
     </ReduxProvider>
-  );
+  )
 }

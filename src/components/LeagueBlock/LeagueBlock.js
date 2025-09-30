@@ -1,14 +1,14 @@
-"use client";
-import Image from "next/image";
-import { useState } from "react";
-import MatchItem from "@/components/MatchItem/MatchItem";
+"use client"
+import { useState } from "react"
+import Image from "next/image"
+import MatchItem from "@/components/MatchItem/MatchItem"
 
 export default function LeagueBlock({ league, matches }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false)
 
   const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-  };
+    setIsFavorite(!isFavorite)
+  }
 
   return (
     <div className="mb-6">
@@ -17,19 +17,21 @@ export default function LeagueBlock({ league, matches }) {
         <div className="flex items-center space-x-3">
           {/* League Logo */}
           <div className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
-            {league?.image_url
-              ? <Image
-                  src={league.image_url}
-                  alt={league.name}
-                  width={32}
-                  height={32}
-                  className="rounded-lg"
-                />
-              : <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">
-                    {league?.name?.slice(0, 2)?.toUpperCase() || "LE"}
-                  </span>
-                </div>}
+            {league?.image_url ? (
+              <Image
+                src={league.image_url}
+                alt={league.name}
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
+            ) : (
+              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                <span className="text-white text-xs font-bold">
+                  {league?.name?.slice(0, 2)?.toUpperCase() || "LE"}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* League Name */}
@@ -40,7 +42,6 @@ export default function LeagueBlock({ league, matches }) {
 
         {/* Favorite Star */}
         <button
-          type="button"
           onClick={toggleFavorite}
           className={`text-2xl transition-colors ${
             isFavorite
@@ -61,5 +62,5 @@ export default function LeagueBlock({ league, matches }) {
         )}
       </div>
     </div>
-  );
+  )
 }

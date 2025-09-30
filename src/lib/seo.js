@@ -1,6 +1,6 @@
 export function canonical(pathname, base = "https://example.com") {
-  const url = new URL(pathname, base);
-  return url.toString();
+  const url = new URL(pathname, base)
+  return url.toString()
 }
 
 export function breadcrumbJsonLd(parts = []) {
@@ -13,7 +13,7 @@ export function breadcrumbJsonLd(parts = []) {
       name: p.name,
       item: p.href,
     })),
-  };
+  }
 }
 
 export function itemJsonLd({ title, description, url, image }) {
@@ -24,5 +24,5 @@ export function itemJsonLd({ title, description, url, image }) {
     description,
     image,
     url,
-  };
+  }
 }

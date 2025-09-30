@@ -46,5 +46,5 @@ export default function MatchCard() {
         </div>
       </div>
     </div>
-  );
+  )
 }

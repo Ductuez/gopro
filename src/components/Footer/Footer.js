@@ -12,7 +12,6 @@ export default function Footer() {
           href="https://lol.fandom.com"
           target="_blank"
           className="underline hover:text-white"
-          rel="noopener"
         >
           Leaguepedia
         </a>
@@ -21,7 +20,6 @@ export default function Footer() {
           href="https://creativecommons.org/licenses/by-sa/3.0/"
           target="_blank"
           className="underline hover:text-white"
-          rel="noopener"
         >
           CC-BY-SA 3.0 license
         </a>
@@ -30,25 +28,25 @@ export default function Footer() {
 
       {/* Right: Links */}
       <div className="flex flex-wrap gap-4 text-gray-400 mt-2 lg:mt-0">
-        <a href="/roadmap" className="hover:text-white">
+        <a href="#" className="hover:text-white">
           Roadmap
         </a>
-        <a href="/advertise" className="hover:text-white">
+        <a href="#" className="hover:text-white">
           Advertise with us
         </a>
-        <a href="/contact" className="hover:text-white">
+        <a href="#" className="hover:text-white">
           Contact
         </a>
-        <a href="/privacy" className="hover:text-white">
+        <a href="#" className="hover:text-white">
           Privacy
         </a>
-        <a href="/terms" className="hover:text-white">
+        <a href="#" className="hover:text-white">
           ToS
         </a>
-        <a href="/legal" className="hover:text-white">
+        <a href="#" className="hover:text-white">
           Legal
         </a>
       </div>
     </footer>
-  );
+  )
 }

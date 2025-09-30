@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from "react"
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <header className="flex items-center justify-between bg-black px-6 py-3 text-white">
@@ -84,5 +84,5 @@ export default function Header() {
         </nav>
       )}
     </header>
-  );
+  )
 }

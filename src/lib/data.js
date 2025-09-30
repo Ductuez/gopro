@@ -17,4 +17,4 @@ export const items = [
       "https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=1200&auto=format&fit=crop",
     updatedAt: "2025-07-21",
   },
-];
+]

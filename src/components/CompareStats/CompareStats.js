@@ -1,9 +1,9 @@
-"use client";
-import { useState } from "react";
+"use client"
+import { useState } from "react"
 
 function CompareStats() {
-  const [player1, setPlayer1] = useState("");
-  const [player2, setPlayer2] = useState("");
+  const [player1, setPlayer1] = useState("")
+  const [player2, setPlayer2] = useState("")
 
   return (
     <div className="bg-gray-900 bg-opacity-80 rounded-xl p-6 w-full max-w-md">
@@ -43,7 +43,7 @@ function CompareStats() {
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default CompareStats;
+export default CompareStats

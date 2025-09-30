@@ -6,7 +6,7 @@ function PredictGames() {
         Guess the winner of each match and earn points!
       </p>
     </div>
-  );
+  )
 }
 
-export default PredictGames;
+export default PredictGames

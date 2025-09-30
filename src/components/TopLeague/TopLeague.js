@@ -1,6 +1,6 @@
-"use client";
+"use client"
 
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
 
 export default function TopLeagues() {
   const leagesArray = [
@@ -44,9 +44,9 @@ export default function TopLeagues() {
       country: "US",
       img_flag: "/esport/flags/US.webp",
     },
-  ];
+  ]
 
-  const _leagues = useSelector((state) => state.leagues.data || []);
+  const leagues = useSelector((state) => state.leagues.data || [])
 
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white rounded-xl p-4 w-full max-w-sm bg-opacity-80">
@@ -90,5 +90,5 @@ export default function TopLeagues() {
         </button>
       </div>
     </div>
-  );
+  )
 }
