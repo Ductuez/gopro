@@ -4,7 +4,6 @@ export async function GET() {
   const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
 
   if (!TOKEN_PANDASCORE) {
-    // Fallback data when no API key
     const fallbackChanges = [
       {
         date: "September 20",
@@ -39,7 +38,6 @@ export async function GET() {
   }
 
   try {
-    // Get recent players with modifications (potential roster changes)
     const playersResponse = await fetch(
       `https://api.pandascore.co/lol/players?sort=-modified_at&per_page=150`,
       {
@@ -50,7 +48,6 @@ export async function GET() {
 
     if (!playersResponse.ok) {
       if (playersResponse.status === 429) {
-        // Rate limit hit, return fallback data
         const fallbackChanges = [
           {
             date: "September 29",
@@ -100,7 +97,6 @@ export async function GET() {
 
     const players = await playersResponse.json()
 
-    // Get teams for logo mapping
     const teamsResponse = await fetch(
       `https://api.pandascore.co/lol/teams?per_page=50`,
       {
@@ -114,7 +110,6 @@ export async function GET() {
       teams = await teamsResponse.json()
     }
 
-    // Create team logo mapping
     const teamLogos = new Map()
     for (const team of teams) {
       if (team.acronym && team.image_url) {
@@ -123,20 +118,17 @@ export async function GET() {
       }
     }
 
-    // Simulate roster changes based on recently modified players
     const rosterChanges = new Map()
     const now = new Date()
     
-    // Group changes by date
     const changesByDate = new Map()
 
-    for (const player of players.slice(0, 80)) { // Increased for more data
+    for (const player of players.slice(0, 80)) {
       if (!player.name || !player.current_team) continue
 
       const modifiedDate = new Date(player.modified_at)
       const daysDiff = Math.floor((now - modifiedDate) / (1000 * 60 * 60 * 24))
       
-      // Only consider recent changes (last 30 days)
       if (daysDiff <= 30) {
         const dateKey = modifiedDate.toLocaleDateString('en-US', { 
           month: 'long', 
@@ -147,7 +139,6 @@ export async function GET() {
           changesByDate.set(dateKey, [])
         }
 
-        // Randomly assign JOIN or LEAVE based on player data
         const moveType = Math.random() > 0.6 ? 'JOIN' : 'LEAVE'
         const teamAcronym = player.current_team.acronym || player.current_team.name
         const teamLogo = teamLogos.get(teamAcronym) || 
@@ -164,16 +155,14 @@ export async function GET() {
       }
     }
 
-    // Convert to array format
     const changes = Array.from(changesByDate.entries())
-      .sort((a, b) => new Date(b[0]) - new Date(a[0])) // Sort by date descending
-      .slice(0, 10) // Increased to last 10 days
+      .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+      .slice(0, 10)
       .map(([date, moves]) => ({
         date,
-        moves: moves.slice(0, 12) // Increased moves per date
+        moves: moves.slice(0, 12)
       }))
 
-    // If no changes found, return fallback data
     if (changes.length === 0) {
       const fallbackChanges = [
         {
@@ -251,7 +240,6 @@ export async function GET() {
   } catch (error) {
     console.error("Error fetching roster changes:", error)
     
-    // Return fallback data on any error
         const fallbackChanges = [
           {
             date: "September 20",

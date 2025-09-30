@@ -4,7 +4,6 @@ export async function GET() {
   const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
 
   if (!TOKEN_PANDASCORE) {
-    // Fallback data when no API key
     const fallbackTeams = [
       { rank: 1, name: "KC", logo: "https://cdn.pandascore.co/images/team/image/128918/karmine_corp.png", lp: "8.003" },
       { rank: 2, name: "G2", logo: "https://cdn.pandascore.co/images/team/image/3/g2_esports.png", lp: "7.814" },
@@ -21,7 +20,6 @@ export async function GET() {
   }
 
   try {
-    // Get the last 30 days for performance calculation
     const thirtyDaysAgo = new Date()
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
     const start = thirtyDaysAgo.toISOString()
@@ -29,7 +27,6 @@ export async function GET() {
     const now = new Date()
     const end = now.toISOString()
 
-    // Fetch recent LoL teams with decent activity
     const teamsResponse = await fetch(
       `https://api.pandascore.co/lol/teams?sort=-modified_at&per_page=50`,
       {
@@ -40,7 +37,6 @@ export async function GET() {
 
     if (!teamsResponse.ok) {
       if (teamsResponse.status === 429) {
-        // Rate limit hit, return fallback data
         const fallbackTeams = [
           { rank: 1, name: "KC", logo: "https://cdn.pandascore.co/images/team/image/128918/karmine_corp.png", lp: "8.003" },
           { rank: 2, name: "G2", logo: "https://cdn.pandascore.co/images/team/image/3/g2_esports.png", lp: "7.814" },
@@ -64,7 +60,6 @@ export async function GET() {
 
     const teams = await teamsResponse.json()
 
-    // Get recent matches for performance calculation (limited for performance)
     const matchesResponse = await fetch(
       `https://api.pandascore.co/lol/matches?range[begin_at]=${start},${end}&sort=-begin_at&per_page=100`,
       {
@@ -78,11 +73,9 @@ export async function GET() {
       matches = await matchesResponse.json()
     }
 
-    // Calculate performance scores for teams
     const teamPerformance = new Map()
     
-    // Initialize teams with base performance
-    for (const team of teams.slice(0, 30)) { // Limit to 30 teams for performance
+    for (const team of teams.slice(0, 30)) {
       if (team.name && team.acronym) {
         teamPerformance.set(team.id, {
           id: team.id,
@@ -91,13 +84,12 @@ export async function GET() {
           logo: team.image_url || null,
           matches: 0,
           wins: 0,
-          performance: 6.0 + Math.random() * 2 // Base score 6-8
+          performance: 6.0 + Math.random() * 2
         })
       }
     }
 
-    // Process matches to calculate real performance
-    for (const match of matches.slice(0, 50)) { // Limit matches for performance
+    for (const match of matches.slice(0, 50)) {
       if (match.status === 'finished' && match.opponents?.length === 2) {
         for (const opponent of match.opponents) {
           if (opponent.opponent && teamPerformance.has(opponent.opponent.id)) {
@@ -108,19 +100,17 @@ export async function GET() {
               teamData.wins += 1
             }
             
-            // Calculate performance based on win rate
             const winRate = teamData.wins / teamData.matches
-            teamData.performance = 6.0 + (winRate * 2.5) + (Math.random() * 0.5) // 6.0-8.5 range
+            teamData.performance = 6.0 + (winRate * 2.5) + (Math.random() * 0.5)
           }
         }
       }
     }
 
-    // Convert to array and sort by performance
     const rankedTeams = Array.from(teamPerformance.values())
-      .filter(team => team.name && team.logo) // Only teams with proper data
+      .filter(team => team.name && team.logo)
       .sort((a, b) => b.performance - a.performance)
-      .slice(0, 10) // Top 10 teams
+      .slice(0, 10)
       .map((team, index) => ({
         rank: index + 1,
         name: team.name,
@@ -130,7 +120,6 @@ export async function GET() {
         wins: team.wins
       }))
 
-    // If no teams with matches, return fallback
     if (rankedTeams.length === 0) {
       const fallbackTeams = [
         { rank: 1, name: "KC", logo: "https://cdn.pandascore.co/images/team/image/128918/karmine_corp.png", lp: "8.003" },
@@ -160,7 +149,6 @@ export async function GET() {
   } catch (error) {
     console.error("Error fetching top teams:", error)
     
-    // Return fallback data on any error
     const fallbackTeams = [
       { rank: 1, name: "KC", logo: "https://cdn.pandascore.co/images/team/image/128918/karmine_corp.png", lp: "8.003" },
       { rank: 2, name: "G2", logo: "https://cdn.pandascore.co/images/team/image/3/g2_esports.png", lp: "7.814" },
