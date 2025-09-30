@@ -21,22 +21,22 @@ body {
 }
 
 .bg-black-700 {
-  background-color: rgba(19, 22, 25, 0.7) !important;
+  background-color: rgba(19, 22, 25, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
 .bg-purple-hover {
-  background-color: rgba(222, 204, 251, 0.1) !important;
+  background-color: rgba(222, 204, 251, 0.1);
 }
 
 .border-white-10 {
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .component-opacity {
-  background-color: rgba(19, 22, 25, 0.7) !important;
+  background-color: rgba(19, 22, 25, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

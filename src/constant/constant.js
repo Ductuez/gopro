@@ -24,4 +24,4 @@ export const PAGES = [
     path: "/schedule",
     icon: "calendar",
   },
-]
+];

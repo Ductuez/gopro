@@ -1,8 +1,8 @@
-import { items } from "@/lib/data"
+import { items } from "@/lib/data";
 
 export default async function sitemap() {
-  const base = "https://example.com"
-  const now = new Date().toISOString()
+  const base = "https://example.com";
+  const now = new Date().toISOString();
   return [
     {
       url: `${base}/`,
@@ -16,5 +16,5 @@ export default async function sitemap() {
       changeFrequency: "weekly",
       priority: 0.8,
     })),
-  ]
+  ];
 }

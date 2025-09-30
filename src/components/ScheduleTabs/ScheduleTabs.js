@@ -23,5 +23,5 @@ export default function ScheduleTabs({ tab, setTab }) {
         <span>Favorites</span>
       </button>
     </div>
-  )
+  );
 }

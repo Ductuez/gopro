@@ -1,16 +1,16 @@
 // app/ReduxProvider.jsx
-"use client"
+"use client";
 
-import { Provider } from "react-redux"
-import { makeStore } from "@/store"
-import { useRef } from "react"
+import { useRef } from "react";
+import { Provider } from "react-redux";
+import { makeStore } from "@/store";
 
 export default function ReduxProvider({ children, preloadedState = {} }) {
-  const storeRef = useRef()
-  
+  const storeRef = useRef();
+
   if (!storeRef.current) {
-    storeRef.current = makeStore(preloadedState)
+    storeRef.current = makeStore(preloadedState);
   }
 
-  return <Provider store={storeRef.current}>{children}</Provider>
+  return <Provider store={storeRef.current}>{children}</Provider>;
 }

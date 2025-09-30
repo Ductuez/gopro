@@ -1,13 +1,13 @@
-import "./globals.css"
-import Header from "@/components/Header/Header"
-import Footer from "@/components/Footer/Footer"
-import ErrorBoundary from "@/components/ErrorBoundary"
-import { clsx } from "clsx"
+import "./globals.css";
+import { clsx } from "clsx";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 
-const siteName = "DPM Clone"
-const siteUrl = "https://example.com"
+const siteName = "DPM Clone";
+const siteUrl = "https://example.com";
 const siteDescription =
-  "Bộ sưu tập mẫu/preview theo phong cách DPM.lol — nhanh, đẹp, SEO tối ưu."
+  "Bộ sưu tập mẫu/preview theo phong cách DPM.lol — nhanh, đẹp, SEO tối ưu.";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
@@ -34,11 +34,11 @@ export const metadata = {
     languages: { "vi-VN": "/", "en-US": "/en" },
   },
   robots: { index: true, follow: true },
-}
+};
 
 export const viewport = {
   themeColor: "#0ea5e9",
-}
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -57,5 +57,5 @@ export default function RootLayout({ children }) {
         <Footer />
       </body>
     </html>
-  )
+  );
 }

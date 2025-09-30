@@ -1,6 +1,6 @@
-"use client"
-import Select from "react-select"
-import ClientOnly from "@/components/ClientOnly"
+"use client";
+import Select from "react-select";
+import ClientOnly from "@/components/ClientOnly";
 
 // Custom option hiển thị icon + text
 const Option = (props) => (
@@ -13,7 +13,7 @@ const Option = (props) => (
     <img src={props.data.icon} alt="" className="w-6 h-6 rounded" />
     <span>{props.data.label}</span>
   </div>
-)
+);
 
 // Custom hiển thị khi chọn
 const SingleValue = ({ data }) => (
@@ -21,18 +21,18 @@ const SingleValue = ({ data }) => (
     <img src={data.icon} alt="" className="w-6 h-6 rounded" />
     <span className="text-white">{data.label}</span>
   </div>
-)
+);
 
 export default function PlayerSelect({ players = [] }) {
-  const mapPlayers = Array.isArray(players) 
+  const mapPlayers = Array.isArray(players)
     ? players
-        .filter((player) => player && player.id && player.name)
+        .filter((player) => player?.id && player.name)
         .map((player) => ({
           value: player.id,
           label: player.name,
-          icon: player.image_url || '/default-player.png',
+          icon: player.image_url || "/default-player.png",
         }))
-    : []
+    : [];
 
   return (
     <div className="w-64">
@@ -76,5 +76,5 @@ export default function PlayerSelect({ players = [] }) {
         />
       </ClientOnly>
     </div>
-  )
+  );
 }
