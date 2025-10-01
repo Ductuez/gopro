@@ -1,8 +1,11 @@
 "use client"
 
 import { useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 
 export default function TopLeagues() {
+  const router = useRouter()
+
   const leagesArray = [
     {
       name: "LCK",
@@ -22,11 +25,14 @@ export default function TopLeagues() {
     },
     {
       name: "LPL",
-      id: 295,
+      id: 294,
       slug: "lpl",
       image_url: "https://dpm.lol/esport/leagues/LPL.webp",
       country: "CN",
       img_flag: "/esport/flags/CN.webp",
+      onClick: () => {
+        router.push("/leagues/lpl/2025/season")
+      },
     },
     {
       name: "LEC",
@@ -58,7 +64,10 @@ export default function TopLeagues() {
         {leagesArray.map((league, idx) => (
           <li
             key={idx}
-            className="flex items-center justify-between cursor-pointer hover:bg-gray-700 p-2 rounded-lg transition duration-200 "
+            className="flex items-center justify-between cursor-pointer hover:bg-gray-700 p-2 rounded-lg transition duration-200"
+            onClick={() => {
+              league.onClick()
+            }}
           >
             <div className="flex items-center space-x-2">
               <img

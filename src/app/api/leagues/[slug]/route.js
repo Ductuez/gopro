@@ -1,25 +1,33 @@
-// app/api/league/route.js
 import { NextResponse } from "next/server"
 
-export async function GET(req) {
+export async function GET(req, { params }) {
+  const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
+
+  const urlEndpoint = `https://api.pandascore.co/lol/leagues`
+
   try {
-    const { searchParams } = new URL(req.url)
-    const slug = searchParams.get("slug")
-
-    const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
-    const urlEndpoint = `https://api.pandascore.co/lol/leagues/${slug}`
-
-    const response = await fetch(urlEndpoint, {
+    const res = await fetch(urlEndpoint, {
       headers: {
         Authorization: `Bearer ${TOKEN_PANDASCORE}`,
       },
       next: { revalidate: 3600 },
     })
 
-    const data = await response.json()
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: `PandaScore API error: ${res.status} ${res.statusText}` },
+        { status: res.status }
+      )
+    }
 
-    return NextResponse.json({ status: response.status, data })
+    const data = await res.json()
+
+    return NextResponse.json({ status: res.status, data: data })
   } catch (error) {
-    return NextResponse.json({ status: 500, error: error.message })
+    console.error("Error fetching leagues:", error)
+    return NextResponse.json(
+      { error: "Failed to fetch leagues", details: error.message },
+      { status: 500 }
+    )
   }
 }

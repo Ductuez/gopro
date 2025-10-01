@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 export const getTodayUTC7 = () => {
   const now = new Date()
   const utc7 = new Date(now.getTime() + 7 * 60 * 60 * 1000)
@@ -20,4 +21,18 @@ export const getLastWeekRange = () => {
   sunday.setUTCHours(23, 59, 59, 999)
 
   return { start: monday.toISOString(), end: sunday.toISOString() }
+}
+
+export function getMatchMinutes(opensAt) {
+  if (!opensAt) return 0
+
+  const diff = dayjs().diff(dayjs(opensAt), "minute")
+  return diff >= 0 ? diff : 0
+}
+
+export const countWins = (games, teamId) => {
+  return (
+    games?.filter((g) => g.status === "finished" && g.winner?.id === teamId)
+      .length || 0
+  )
 }

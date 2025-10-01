@@ -1,10 +1,13 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
+import useWebSocket from "react-use-websocket"
+
 import MatchItem from "@/components/MatchItem/MatchItem"
 
 export default function LeagueBlock({ league, matches }) {
   const [isFavorite, setIsFavorite] = useState(false)
+  const [messages, setMessages] = useState([])
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite)
