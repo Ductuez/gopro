@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "league": { "id": 100, "name": "EMEA", "image_url": "" },
+    "begin_at": "2025-09-25T01:00:00Z",
+    "opponents": [
+      { "opponent": { "id": 11, "name": "Besiktas Esports", "acronym": "BES" } },
+      { "opponent": { "id": 12, "name": "ZennIT", "acronym": "ZNT" } }
+    ],
+    "games": [ { "status": "finished", "winner": { "id": 11 } } ],
+    "winner_id": 11,
+    "status": "finished"
+  },
+  {
+    "id": 2,
+    "league": { "id": 100, "name": "EMEA", "image_url": "" },
+    "begin_at": "2025-09-25T01:00:00Z",
+    "opponents": [
+      { "opponent": { "id": 13, "name": "GMBLERS Esports", "acronym": "GMB" } },
+      { "opponent": { "id": 14, "name": "Team Insidious", "acronym": "TIS" } }
+    ],
+    "games": [ { "status": "finished", "winner": { "id": 13 } } ],
+    "winner_id": 13,
+    "status": "finished"
+  }
+]
