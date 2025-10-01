@@ -8,7 +8,7 @@ export async function GET(req) {
   const end = searchParams.get("end_at") // 👈 lấy param end
 
   const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
-  
+
   if (!TOKEN_PANDASCORE) {
     return NextResponse.json(
       { error: "PANDASCORE_API_KEY is not configured" },
@@ -23,7 +23,6 @@ export async function GET(req) {
       headers: {
         Authorization: `Bearer ${TOKEN_PANDASCORE}`,
       },
-      next: { revalidate: 300 }, // fetch data lại sau 5 phút
     })
 
     if (!res.ok) {
@@ -36,7 +35,6 @@ export async function GET(req) {
     const matches = await res.json()
 
     if (!Array.isArray(matches)) {
-      console.log("PandaScore API response:", matches)
       return NextResponse.json(
         { error: "Invalid response format from PandaScore API", data: [] },
         { status: 500 }
@@ -44,17 +42,18 @@ export async function GET(req) {
     }
 
     const grouped = matches.reduce((acc, match) => {
-    const leagueId = match.league.id
-    if (!acc[leagueId]) {
-      acc[leagueId] = {
-        league: match.league,
-        matches: [],
-        begin_at: match.begin_at,
+      const leagueId = match.league.id
+      if (!acc[leagueId]) {
+        acc[leagueId] = {
+          league: match.league,
+          matches: [],
+          begin_at: match.begin_at,
+          link_socket: match.live,
+        }
       }
-    }
-    acc[leagueId].matches.push(match)
-    return acc
-  }, {})
+      acc[leagueId].matches.push(match)
+      return acc
+    }, {})
 
     // Convert sang array
     const groupedLeagues = Object.values(grouped)

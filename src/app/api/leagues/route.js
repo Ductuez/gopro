@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 // GET request
 export async function GET() {
   const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
-  
+
   if (!TOKEN_PANDASCORE) {
     return NextResponse.json(
       { error: "PANDASCORE_API_KEY is not configured" },
