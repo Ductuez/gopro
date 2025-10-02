@@ -13,6 +13,52 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.pandascore.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'dpm.lol',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dmp.lol',
+      },
+      {
+        protocol: 'https',
+        hostname: 'liquipedia.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'am-a.akamaihd.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'static.lolesports.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'static.lolesports.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.dpm.lol',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.dpm.lol',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.dpm.lol',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dpm.lol',
+        pathname: '/esport/players/**',
+      },
+      {
+        protocol: 'https', 
+        hostname: 'dpm.lol',
+        pathname: '/esport/teams/**',
+      },
     ],
   },
   
