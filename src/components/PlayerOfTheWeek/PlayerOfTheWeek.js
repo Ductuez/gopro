@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { fetchPlayerOfTheWeek } from "@/redux/playerOfTheWeekSlice"
 import { getTeamUIConfig } from "@/config/teamConfig"
-import { CrownIcon } from "@/config/crownConfig"
+// import { CrownIcon } from "@/config/crownConfig"
 import Image from "next/image"
 
 export default function PlayerOfTheWeek() {
@@ -127,13 +127,13 @@ export default function PlayerOfTheWeek() {
                     e.target.style.display = 'none'
                   }}
                 />
-                {topPlayer.hasCrown && <CrownIcon isLarge={true} isFallback={false} />}
+                {/* {topPlayer.hasCrown && <CrownIcon isLarge={true} isFallback={false} />} */}
               </div>
             ) : (
               <div className="w-20 h-20 bg-gray-600 rounded-lg flex items-center justify-center text-2xl font-bold relative">
                 {topPlayer.name.charAt(0)}
                 {/* Crown for fallback avatar */}
-                {topPlayer.hasCrown && <CrownIcon isLarge={false} isFallback={true} />}
+                {/* {topPlayer.hasCrown && <CrownIcon isLarge={false} isFallback={true} />} */}
               </div>
             )}
           </div>

@@ -1,25 +1,45 @@
-// app/api/league/route.js
 import { NextResponse } from "next/server"
+import { pandascoreService } from '@/services/pandascoreService'
 
-export async function GET(req) {
+export async function GET(req, { params }) {
   try {
-    const { searchParams } = new URL(req.url)
-    const slug = searchParams.get("slug")
+    const { slug } = params
+    
+    if (!slug) {
+      return NextResponse.json(
+        { error: "League slug is required" },
+        { status: 400 }
+      )
+    }
 
-    const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
-    const urlEndpoint = `https://api.pandascore.co/lol/leagues/${slug}`
+    const league = await pandascoreService.getLeagueBySlug(slug)
 
-    const response = await fetch(urlEndpoint, {
-      headers: {
-        Authorization: `Bearer ${TOKEN_PANDASCORE}`,
-      },
-      next: { revalidate: 3600 },
+    return NextResponse.json({ 
+      status: 200,
+      data: league,
+      source: 'pandascore-proxy'
     })
-
-    const data = await response.json()
-
-    return NextResponse.json({ status: response.status, data })
   } catch (error) {
-    return NextResponse.json({ status: 500, error: error.message })
+    console.error(`Error fetching league ${params?.slug} through proxy:`, error)
+    
+    if (error.message.includes('Rate limit exceeded')) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+    
+    if (error.message.includes('Proxy error: 401')) {
+      return NextResponse.json(
+        { error: 'Pandascore API authentication failed' },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json({ 
+      status: 500,
+      error: "Failed to fetch league",
+      details: error.message
+    })
   }
 }

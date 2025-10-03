@@ -1,9 +1,110 @@
 import { NextResponse } from "next/server"
+import { pandascoreService } from '@/services/pandascoreService'
 
 export async function GET() {
-  const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
+  try {
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+    const start = thirtyDaysAgo.toISOString()
+    
+    const now = new Date()
+    const end = now.toISOString()
 
-  if (!TOKEN_PANDASCORE) {
+    const teams = await pandascoreService.getTeams({
+      sort: '-modified_at',
+      per_page: 50
+    })
+
+    const matches = await pandascoreService.getMatches({
+      'range[begin_at]': `${start},${end}`,
+      sort: '-begin_at',
+      per_page: 100
+    })
+
+    const teamMap = new Map()
+    const teamStats = new Map()
+
+    for (const team of teams) {
+      if (team.id && team.name) {
+        teamMap.set(team.id, {
+          name: team.acronym || team.name,
+          logo: team.image_url,
+          id: team.id
+        })
+        teamStats.set(team.id, { wins: 0, losses: 0, matches: 0 })
+      }
+    }
+
+    for (const match of matches) {
+      if (match.results && match.results.length >= 2) {
+        const team1 = match.results[0]
+        const team2 = match.results[1]
+        
+        if (team1.team_id && team2.team_id) {
+          const team1Stats = teamStats.get(team1.team_id)
+          const team2Stats = teamStats.get(team2.team_id)
+          
+          if (team1Stats) {
+            team1Stats.matches++
+            if (team1.score > team2.score) {
+              team1Stats.wins++
+            } else {
+              team1Stats.losses++
+            }
+          }
+          
+          if (team2Stats) {
+            team2Stats.matches++
+            if (team2.score > team1.score) {
+              team2Stats.wins++
+            } else {
+              team2Stats.losses++
+            }
+          }
+        }
+      }
+    }
+
+    const rankedTeams = Array.from(teamStats.entries())
+      .map(([teamId, stats]) => {
+        const team = teamMap.get(teamId)
+        if (!team || stats.matches < 3) return null
+        
+        const winRate = stats.matches > 0 ? stats.wins / stats.matches : 0
+        const lp = (8 + (winRate * 2) + (Math.random() * 0.5)).toFixed(3)
+        
+        return {
+          name: team.name,
+          logo: team.logo,
+          lp,
+          stats
+        }
+      })
+      .filter(Boolean)
+      .sort((a, b) => parseFloat(b.lp) - parseFloat(a.lp))
+      .slice(0, 10)
+      .map((team, index) => ({
+        rank: index + 1,
+        name: team.name,
+        logo: team.logo,
+        lp: team.lp
+      }))
+
+    if (rankedTeams.length > 0) {
+      return NextResponse.json({
+        teams: rankedTeams,
+        source: 'pandascore-proxy',
+        processed: {
+          teams: teams.length,
+          matches: matches.length
+        }
+      })
+    }
+
+    throw new Error('No sufficient data for rankings')
+
+  } catch (error) {
+    console.error('Error with proxy service, using fallback:', error)
     const fallbackTeams = [
       { rank: 1, name: "KC", logo: "https://cdn.pandascore.co/images/team/image/128918/karmine_corp.png", lp: "8.003" },
       { rank: 2, name: "G2", logo: "https://cdn.pandascore.co/images/team/image/3/g2_esports.png", lp: "7.814" },
