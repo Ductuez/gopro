@@ -10,18 +10,28 @@ import ReduxProvider from "@/app/ReduxProvider"
 import { fetchLeague } from "@/action/leagues"
 import { getMatchesToday } from "@/action/matches"
 import { fetchPlayers } from "@/action/players"
+import { getPlayerOfTheWeek } from "@/action/playerOfTheWeek"
 
 export default async function Page() {
-  const [dataLeague, matchesToday, players] = await Promise.all([
+  const [dataLeague, matchesToday, players, playerOfTheWeek] = await Promise.all([
     fetchLeague(),
     getMatchesToday(),
     fetchPlayers(),
+    getPlayerOfTheWeek(),
   ])
 
   const preloadedState = {
     leagues: { data: dataLeague?.data || [] },
     matchesToday: { data: matchesToday?.data || [] },
     players: { data: players?.data || [] },
+    playerOfTheWeek: {
+      topPlayer: playerOfTheWeek?.data?.topPlayer || null,
+      rankings: playerOfTheWeek?.data?.rankings || [],
+      loading: false,
+      error: null,
+      lastUpdated: playerOfTheWeek?.data?.lastUpdated || null,
+      source: playerOfTheWeek?.source || null
+    },
   }
 
   return (

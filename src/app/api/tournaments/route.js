@@ -1,39 +1,33 @@
-// Next.js App Router API route (server-only)
 import { NextResponse } from "next/server"
+import { pandascoreService } from '@/services/pandascoreService'
 
 // GET request
 export async function GET() {
-  const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
-  
-  if (!TOKEN_PANDASCORE) {
-    return NextResponse.json(
-      { error: "PANDASCORE_API_KEY is not configured" },
-      { status: 500 }
-    )
-  }
-
-  const urlEndpoint = "https://api.pandascore.co/lol/tournaments/running"
-
   try {
-    const res = await fetch(urlEndpoint, {
-      headers: {
-        Authorization: `Bearer ${TOKEN_PANDASCORE}`,
-      },
-      next: { revalidate: 3600 },
-    })
+    const tournaments = await pandascoreService.getRunningTournaments()
 
-    if (!res.ok) {
+    return NextResponse.json({ 
+      status: 200,
+      data: tournaments,
+      source: 'pandascore-proxy'
+    })
+  } catch (error) {
+    console.error("Error fetching tournaments through proxy:", error)
+    
+    if (error.message.includes('Rate limit exceeded')) {
       return NextResponse.json(
-        { error: `PandaScore API error: ${res.status} ${res.statusText}` },
-        { status: res.status }
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+    
+    if (error.message.includes('Proxy error: 401')) {
+      return NextResponse.json(
+        { error: 'Pandascore API authentication failed' },
+        { status: 500 }
       )
     }
 
-    const data = await res.json()
-
-    return NextResponse.json({ status: res.status, data: data })
-  } catch (error) {
-    console.error("Error fetching tournaments:", error)
     return NextResponse.json(
       { error: "Failed to fetch tournaments", details: error.message },
       { status: 500 }

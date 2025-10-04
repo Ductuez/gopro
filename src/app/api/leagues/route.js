@@ -1,39 +1,39 @@
-// Next.js App Router API route (server-only)
 import { NextResponse } from "next/server"
+import { pandascoreService } from '@/services/pandascoreService'
 
 // GET request
-export async function GET() {
-  const TOKEN_PANDASCORE = process.env.PANDASCORE_API_KEY
-  
-  if (!TOKEN_PANDASCORE) {
-    return NextResponse.json(
-      { error: "PANDASCORE_API_KEY is not configured" },
-      { status: 500 }
-    )
-  }
-
-  const urlEndpoint = "https://api.pandascore.co/lol/leagues"
+export async function GET(request) {
+  const { searchParams } = new URL(request.url)
 
   try {
-    const res = await fetch(urlEndpoint, {
-      headers: {
-        Authorization: `Bearer ${TOKEN_PANDASCORE}`,
-      },
-      next: { revalidate: 3600 }, // fetch data lại sau 1 tiếng
+    const leagues = await pandascoreService.getLeagues(null, {
+      per_page: searchParams.get('per_page') || 50,
+      sort: searchParams.get('sort') || '-modified_at',
+      ...Object.fromEntries(searchParams.entries())
     })
 
-    if (!res.ok) {
+    return NextResponse.json({ 
+      status: 200,
+      data: leagues,
+      source: 'pandascore-proxy'
+    })
+  } catch (error) {
+    console.error("Error fetching leagues through proxy:", error)
+    
+    if (error.message.includes('Rate limit exceeded')) {
       return NextResponse.json(
-        { error: `PandaScore API error: ${res.status} ${res.statusText}` },
-        { status: res.status }
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+    
+    if (error.message.includes('Proxy error: 401')) {
+      return NextResponse.json(
+        { error: 'Pandascore API authentication failed' },
+        { status: 500 }
       )
     }
 
-    const data = await res.json()
-
-    return NextResponse.json({ status: res.status, data: data })
-  } catch (error) {
-    console.error("Error fetching leagues:", error)
     return NextResponse.json(
       { error: "Failed to fetch leagues", details: error.message },
       { status: 500 }

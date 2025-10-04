@@ -1,0 +1,41 @@
+{
+  "topPlayer": {
+    "rank": 1,
+    "name": "SKEWMOND",
+    "team": "G2",
+    "score": 9.85,
+    "avatar": "https://dpm.lol/esport/players/skewmond.webp",
+    "teamLogo": "https://dpm.lol/esport/teams/G2.webp"
+  },
+  "rankings": [
+    {
+      "rank": 2,
+      "name": "Labrov",
+      "team": "G2",
+      "score": 9.7,
+      "teamLogo": "https://dpm.lol/esport/teams/G2.webp"
+    },
+    {
+      "rank": 3,
+      "name": "Oscarinin",
+      "team": "Fnatic",
+      "score": 9.48,
+      "teamLogo": "https://dpm.lol/esport/teams/FNC.webp"
+    },
+    {
+      "rank": 4,
+      "name": "Hans Sama",
+      "team": "G2",
+      "score": 9.14,
+      "teamLogo": "https://dpm.lol/esport/teams/G2.webp"
+    },
+    {
+      "rank": 5,
+      "name": "Elyoya",
+      "team": "Team Vitality",
+      "score": 9.09,
+      "teamLogo": "https://dpm.lol/esport/teams/VIT.webp"
+    }
+  ],
+  "lastUpdated": "2025-10-02T06:48:39.055Z"
+}

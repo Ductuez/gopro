@@ -1,5 +1,6 @@
-// app/api/player-of-week/route.js
-import { NextResponse } from "next/server"
+import PlayerOfTheWeekService from '@/services/playerOfTheWeekService'
+
+const playerService = new PlayerOfTheWeekService()
 
 function getLastWeekRange() {
   const now = new Date()
@@ -18,94 +19,83 @@ function getLastWeekRange() {
   return { start: monday.toISOString(), end: sunday.toISOString() }
 }
 
-export async function GET() {
-  const { start, end } = getLastWeekRange()
-  const token = process.env.PANDASCORE_API_KEY
-
-  if (!token) {
-    return NextResponse.json(
-      { error: "PANDASCORE_API_KEY is not configured" },
-      { status: 500 }
-    )
-  }
-
+export async function GET(request) {
   try {
-    // 1. Lấy matches trong tuần
-    const res = await fetch(
-      `https://api.pandascore.co/lol/matches?range[begin_at]=${start},${end}&filter[league_id]=293&page[size]=50`,
-      { 
-        headers: { Authorization: `Bearer ${token}` },
-        next: { revalidate: 3600 },
-      }
-    )
+    const { searchParams } = new URL(request.url)
+    const date = searchParams.get('date') || playerService.getCurrentWeekDate()
+    const forceUpdate = searchParams.get('force') === 'true'
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: `PandaScore API error: ${res.status} ${res.statusText}` },
-        { status: res.status }
-      )
-    }
-
-    const matches = await res.json()
-
-  const playerStats = {}
-
-  // 2. Lặp qua games trong mỗi match
-  for (const match of matches) {
-    for (const g of match.games || []) {
-      try {
-        const gRes = await fetch(
-          `https://api.pandascore.co/lol/games/${g.id}`,
-          { 
-            headers: { Authorization: `Bearer ${token}` },
-            next: { revalidate: 3600 },
-          }
-        )
-        if (!gRes.ok) continue
-        const game = await gRes.json()
-
-        // 3. Gom stats players
-        for (const p of game.players || []) {
-          if (!playerStats[p.id]) {
-            playerStats[p.id] = {
-              id: p.id,
-              name: p.name,
-              team: p.current_team?.name,
-              team_logo: p.current_team?.image_url,
-              kills: 0,
-              deaths: 0,
-              assists: 0,
-              games: 0,
-            }
-          }
-          playerStats[p.id].kills += p.stats.kills || 0
-          playerStats[p.id].deaths += p.stats.deaths || 0
-          playerStats[p.id].assists += p.stats.assists || 0
-          playerStats[p.id].games += 1
+    let playerData = null
+    if (!forceUpdate) {
+      playerData = await playerService.loadCachedPlayerData(date)
+      
+      if (playerData && playerData.lastUpdated) {
+        const lastUpdate = new Date(playerData.lastUpdated)
+        const now = new Date()
+        const hoursSinceUpdate = (now - lastUpdate) / (1000 * 60 * 60)
+        
+        if (hoursSinceUpdate < 24) {
+          console.log(`Using cached player data for ${date}`)
+          return Response.json({
+            success: true,
+            data: playerData,
+            source: 'cache',
+            lastUpdated: playerData.lastUpdated
+          })
         }
-      } catch (e) {
-        console.error("Fetch game error", e)
       }
     }
-  }
 
-  // 4. Tính KDA & sort
-  const players = Object.values(playerStats).map((p) => ({
-    ...p,
-    kda: (p.kills + p.assists) / Math.max(1, p.deaths),
-  }))
+    console.log(`Fetching fresh player data for ${date}`)
+    playerData = await playerService.crawlPlayerOfTheWeek(date)
+    await playerService.cachePlayerData(playerData, date)
 
-  players.sort((a, b) => b.kda - a.kda)
-
-    return NextResponse.json({
-      weekRange: { start, end },
-      top5: players.slice(0, 5),
+    return Response.json({
+      success: true,
+      data: playerData,
+      source: 'fresh',
+      lastUpdated: playerData.lastUpdated
     })
+
   } catch (error) {
-    console.error("Error fetching player of the week:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch player of the week", details: error.message },
-      { status: 500 }
-    )
+    console.error('Error in player of the week API:', error)
+    
+    const mockData = playerService.getMockData()
+    
+    return Response.json({
+      success: false,
+      error: error.message,
+      data: mockData,
+      source: 'fallback'
+    }, { status: 200 })
+  }
+}
+
+export async function POST(request) {
+  try {
+    const body = await request.json()
+    const { date, forceUpdate = true } = body
+    const targetDate = date || playerService.getCurrentWeekDate()
+    
+    console.log(`Manual update requested for player data: ${targetDate}`)
+    
+    const playerData = await playerService.crawlPlayerOfTheWeek(targetDate)
+    const cacheFile = await playerService.cachePlayerData(playerData, targetDate)
+
+    return Response.json({
+      success: true,
+      message: 'Player data updated successfully',
+      data: playerData,
+      cachedTo: cacheFile,
+      lastUpdated: playerData.lastUpdated
+    })
+
+  } catch (error) {
+    console.error('Error updating player data:', error)
+    
+    return Response.json({
+      success: false,
+      error: error.message
+    }, { status: 500 })
   }
 }
